@@ -5,24 +5,47 @@
     <meta charset="UTF-8">
     <meta name ="viewport" content="width-device-width, initial-scale-1.0">
     <title>Cluedo - Page d'accueil</title>
-    <!-- Insertion de l'image -->
-     <div class="image-container" ></div>
-    <img src="photo.jpg/photo.jpg.JPG" alt="Maison hantée" width=2600>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+      <div class="image-container">
+          <img src="photo.jpg/photo.jpg.JPG" alt="Maison hantée" height="100%" width="100%">
+          <div class="text">
+              <h1>Bienvenue dans Cluedo</h1>
+              <p>Résolvez le mystère : Qui ? Où ? Avec quoi ?<br>
+              Cluedo est un jeu où les joueurs enquêtent pour découvrir qui a commis un meurtre, avec quelle arme, et dans quelle pièce du manoir.
+              </p>
+          </div>
+          <div class="buttons">
+              <button id="new-game" onclick="startNewGame()">Nouvelle Partie</button>
+              <button id="rules" onclick="showRules()">Règles du Jeu</button>
+          </div>
+      </div>
+      <script src="script.js"></script>
+  </body>
+<script>
+function startNewGame() {
+  alert("Nouvelle partie commencée !");
+  // Ici, redirigez vers la page de jeu ou réinitialisez l'état du jeu
+  window.location.href = "game.html"; // Exemple de redirection
+}
+
+// Fonction pour afficher les règles du jeu
+function showRules() {
+  alert("Le but du jeu est de découvrir qui a commis le meurtre, dans quelle pièce et avec quelle arme."),
+        ("Explorez les pièces, formulez des hypothèses, et trouvez la bonne combinaison pour gagner !"),
+  document.getElementById("rules-section").classList.remove("hidden");
+}
+
+// Fonction pour cacher les règles du jeu
+function hideRules() {
+  document.getElementById("rules-section").classList.add("hidden");
+
+};
+</script>
+</body>
 </body>
 </html>
-/head>
-<body>
- <header>
-   <h1> Bienvenue dans Cluedo</h1>
- <p> Le mystère vous attend</p>
- </header>
-  <div class ="Introduction" >
-     <p> Explorez les pièces, découvrez les indices et résolvez le meurtre  pour gagner la partie.Serez-vous capable de démasquer le coupable ?</p> 
-  </div>
-   <div>
-   <button class ="btn btn-primary" onclick="StartGame()"> Commencer la partie</button>
-  <button class ="btn btn-secondary" onclick="StartGame()"> Règles du Jeu </button>
- </div>
 
     
 
