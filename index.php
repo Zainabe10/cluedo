@@ -72,7 +72,7 @@ $password = "1234";
 $dbname = "cluedo_db"; // ex: jeu_db
 
 // Connexion à la base de données
-$conn = new sqlite("$localhost:8000", "$root", "$1234", "$cluedo_db");
+$conn = SQLite("$localhost:8000", "$root", "$1234", "$cluedo_db");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
