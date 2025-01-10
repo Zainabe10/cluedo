@@ -63,9 +63,13 @@
         const randomWeapon = localStorage.getItem('randomWeapon');
         const randomRoom = localStorage.getItem('randomRoom');
 
+        // Afficher le personnage selectionné par l'utilisateur 
         console.log('Personnage sélectionné:', selectedCharacter);
+        //Affiche dans la console un personnage aléatoire par le programme
         console.log('Personnage aléatoire:', randomCharacter);
+        //Affiche dans la console une arme  aléatoire par le programme
         console.log('Arme aléatoire:', randomWeapon);
+        //Affiche dans la console une pièce aléatoire par le programme
         console.log('Pièce aléatoire:', randomRoom);
 
         // Préparer le formulaire d'hypothèse
@@ -75,21 +79,26 @@
                 const suspectSelect = document.getElementById('suspect');
                 const weaponSelect = document.getElementById('weapon');
                 const roomSelect = document.getElementById('room');
-
+                
+                // Parcourt la liste des personnages disponibles dans getGameData.php
                 data.characters.forEach(character => {
+
                     const option = document.createElement('option');
+                    //Définit la valeur de l'option comme le nom du personnage
                     option.value = character;
+                    //Définit le texte affiché dans l'option comme le nom du personnage
                     option.textContent = character;
+                    //Ajoute l'option crée dans la iste déroulante des suspects
                     suspectSelect.appendChild(option);
                 });
-
+                // Parcourt la liste des armes disponibles dans getGameData.php
                 data.weapons.forEach(weapon => {
                     const option = document.createElement('option');
                     option.value = weapon;
                     option.textContent = weapon;
                     weaponSelect.appendChild(option);
                 });
-
+                // Parcourt la liste des pièces disponibles dans getGameData.php
                 data.rooms.forEach(room => {
                     const option = document.createElement('option');
                     option.value = room;
@@ -97,37 +106,46 @@
                     roomSelect.appendChild(option);
                 });
             });
-
+        // Function pour faire des hypothèses(suspect,arme,pièce)
         function makeHypothesis() {
             const suspect = document.getElementById('suspect').value;
             const weapon = document.getElementById('weapon').value;
             const room = document.getElementById('room').value;
             const currentRoom = 'Cuisine';
 
-            if (localStorage.getItem('lastHypothesisRoom') === currentRoom) {
+            //// Vérifie si la pièce enregistrée précédemment dans le stockage local (localStorage qui est dans la selection _personnage.html)
+            if (localStorage.getItem('lastHypothesisRoom') === currentRoom)//pièce actuelle {
                 alert('Vous ne pouvez pas formuler deux hypothèses de suite dans la même pièce.');
                 return;
             }
-
+            
+            // Récupère le nombre d'hypothèses effectuées à partir du stockage local (localStorage) et le convertit en entier.
+            // Si aucune valeur n'existe dans localStorage, initialise le compteur à 0.
             let hypothesesMade = parseInt(localStorage.getItem('hypothesesMade')) || 0;
             hypothesesMade++;
+            //Met à Jour la valeur du nombre d'hypothèses dans le stockage local pour conserver l'information
             localStorage.setItem('hypothesesMade', hypothesesMade);
 
+            // Vérifie si l'hypothèse de l'utilisateur est correcte en comparant le suspect, l'arme, et la pièce sélectionnés
             if (suspect === randomCharacter && weapon === randomWeapon && room === randomRoom) {
                 alert('Félicitations ! Votre hypothèse est correcte. Vous avez gagné la partie !');
                 window.location.href = 'fin.html';
             } else {
+                // Tableau qui permet de stocker les éléments incorrects de l'hypothèse
                 const incorrectElements = [];
+                //Vérifie si le suspect est incorrect, et l'ajouter donc à la liste (de même pour le reste)
                 if (suspect !== randomCharacter) incorrectElements.push('Personnage');
                 if (weapon !== randomWeapon) incorrectElements.push('Arme');
                 if (room !== randomRoom) incorrectElements.push('Pièce');
+                //Sélectionne aléatoirement un élément incorrect à la liste
                 const randomIncorrectElement = incorrectElements[Math.floor(Math.random() * incorrectElements.length)];
+                //Affiche une alerte que l'hypothèse est incorrect
                 alert(`Votre hypothèse est incorrecte. L'élément incorrect est : ${randomIncorrectElement}`);
             }
 
             // Empêcher de formuler une autre hypothèse dans la même pièce
             localStorage.setItem('lastHypothesisRoom', currentRoom);
-        }
+        
     </script>
 </body>
 </html>

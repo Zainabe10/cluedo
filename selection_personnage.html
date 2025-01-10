@@ -37,7 +37,7 @@
                 // Stocker les données dans des variables globales
                 window.gameData = data;
             });
-
+        // Fonction pour commencer la partie
         function startGame() {
             const selectedCharacter = document.getElementById('character').value;
             const randomCharacter = window.gameData.characters[Math.floor(Math.random() * window.gameData.characters.length)];
