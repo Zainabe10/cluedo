@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cluedo - Sélection du personnage</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="image-container">
+        <img src="images/selection_personnage.jpg" height="100%" width="100%">
+        <div class="text">
+            <h1>Sélection du personnage</h1>
+            <p>Veuillez sélectionner un personnage :</p>
+            <form id="character-selection">
+                <label for="character">Choisir un personnage :</label>
+                <select id="character" name="character"></select>
+                <br><br>
+                <button type="button" onclick="startGame()">Commencer la partie</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        // Récupérer les données de la base de données
+        fetch('getGameData.php')
+            .then(response => response.json())
+            .then(data => {
+                const characterSelect = document.getElementById('character');
+                data.characters.forEach(character => {
+                    const option = document.createElement('option');
+                    option.value = character;
+                    option.textContent = character;
+                    characterSelect.appendChild(option);
+                });
+
+                // Stocker les données dans des variables globales
+                window.gameData = data;
+            });
+
+        function startGame() {
+            const selectedCharacter = document.getElementById('character').value;
+            const randomCharacter = window.gameData.characters[Math.floor(Math.random() * window.gameData.characters.length)];
+            const randomWeapon = window.gameData.weapons[Math.floor(Math.random() * window.gameData.weapons.length)];
+            const randomRoom = window.gameData.rooms[Math.floor(Math.random() * window.gameData.rooms.length)];
+
+            console.log('Personnage sélectionné:', selectedCharacter);
+            console.log('Personnage aléatoire:', randomCharacter);
+            console.log('Arme aléatoire:', randomWeapon);
+            console.log('Pièce aléatoire:', randomRoom);
+
+            // Stocker les informations de jeu dans le localStorage
+            localStorage.setItem('selectedCharacter', selectedCharacter);
+            localStorage.setItem('randomCharacter', randomCharacter);
+            localStorage.setItem('randomWeapon', randomWeapon);
+            localStorage.setItem('randomRoom', randomRoom);
+
+            // Rediriger vers le Hall
+            window.location.href = 'hall.html';
+        }
+    </script>
+</body>
+</html>

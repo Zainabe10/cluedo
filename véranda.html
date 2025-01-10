@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cluedo - Véranda</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="image-container">
+        <img src="images/véranda.png" height="100%" width="100%">
+        <div class="text">
+            <h1>Véranda</h1>
+            <p>Vous êtes dans la Véranda. Où voulez-vous aller ?</p>
+            <div class="navigation" id="navigation-buttons">
+                <!-- Les boutons de navigation seront ajoutés ici par JavaScript -->
+            </div>
+            <div id="hypothesis-form">
+                <h2>Formuler une hypothèse</h2>
+                <form>
+                    <label for="suspect">Personnage suspect :</label>
+                    <select id="suspect" name="suspect"></select>
+                    <br><br>
+                    <label for="weapon">Arme possible :</label>
+                    <select id="weapon" name="weapon"></select>
+                    <br><br>
+                    <label for="room">Pièce :</label>
+                    <select id="room" name="room"></select>
+                    <br><br>
+                    <button type="button" onclick="makeHypothesis()">Formuler l'hypothèse</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Récupérer les pièces adjacentes
+        fetch('getAdjacentRooms.php?piece=Véranda')
+            .then(response => response.json())
+            .then(adjacentRooms => {
+                const navigationButtons = document.getElementById('navigation-buttons');
+                adjacentRooms.forEach(room => {
+                    const button = document.createElement('button');
+                    button.textContent = room;
+                    button.onclick = () => navigateTo(room);
+                    navigationButtons.appendChild(button);
+                });
+            });
+
+        function navigateTo(room) {
+            // Enregistrer la pièce visitée
+            let piecesVisited = JSON.parse(localStorage.getItem('piecesVisited')) || [];
+            if (!piecesVisited.includes(room)) {
+                piecesVisited.push(room);
+                localStorage.setItem('piecesVisited', JSON.stringify(piecesVisited));
+            }
+            window.location.href = room.toLowerCase().replace(/ /g, '_') + '.html';
+        }
+
+        // Afficher les informations de jeu stockées
+        const selectedCharacter = localStorage.getItem('selectedCharacter');
+        const randomCharacter = localStorage.getItem('randomCharacter');
+        const randomWeapon = localStorage.getItem('randomWeapon');
+        const randomRoom = localStorage.getItem('randomRoom');
+
+        console.log('Personnage sélectionné:', selectedCharacter);
+        console.log('Personnage aléatoire:', randomCharacter);
+        console.log('Arme aléatoire:', randomWeapon);
+        console.log('Pièce aléatoire:', randomRoom);
+
+        // Préparer le formulaire d'hypothèse
+        fetch('getGameData.php')
+            .then(response => response.json())
+            .then(data => {
+                const suspectSelect = document.getElementById('suspect');
+                const weaponSelect = document.getElementById('weapon');
+                const roomSelect = document.getElementById('room');
+
+                data.characters.forEach(character => {
+                    const option = document.createElement('option');
+                    option.value = character;
+                    option.textContent = character;
+                    suspectSelect.appendChild(option);
+                });
+
+                data.weapons.forEach(weapon => {
+                    const option = document.createElement('option');
+                    option.value = weapon;
+                    option.textContent = weapon;
+                    weaponSelect.appendChild(option);
+                });
+
+                data.rooms.forEach(room => {
+                    const option = document.createElement('option');
+                    option.value = room;
+                    option.textContent = room;
+                    roomSelect.appendChild(option);
+                });
+            });
+
+        function makeHypothesis() {
+            const suspect = document.getElementById('suspect').value;
+            const weapon = document.getElementById('weapon').value;
+            const room = document.getElementById('room').value;
+            const currentRoom = 'Véranda';
+
+            if (localStorage.getItem('lastHypothesisRoom') === currentRoom) {
+                alert('Vous ne pouvez pas formuler deux hypothèses de suite dans la même pièce.');
+                return;
+            }
+
+            let hypothesesMade = parseInt(localStorage.getItem('hypothesesMade')) || 0;
+            hypothesesMade++;
+            localStorage.setItem('hypothesesMade', hypothesesMade);
+
+            if (suspect === randomCharacter && weapon === randomWeapon && room === randomRoom) {
+                alert('Félicitations ! Votre hypothèse est correcte. Vous avez gagné la partie !');
+                window.location.href = 'fin.html';
+            } else {
+                const incorrectElements = [];
+                if (suspect !== randomCharacter) incorrectElements.push('Personnage');
+                if (weapon !== randomWeapon) incorrectElements.push('Arme');
+                if (room !== randomRoom) incorrectElements.push('Pièce');
+                const randomIncorrectElement = incorrectElements[Math.floor(Math.random() * incorrectElements.length)];
+                alert(`Votre hypothèse est incorrecte. L'élément incorrect est : ${randomIncorrectElement}`);
+            }
+
+            // Empêcher de formuler une autre hypothèse dans la même pièce
+            localStorage.setItem('lastHypothesisRoom', currentRoom);
+        }
+    </script>
+</body>
+</html>

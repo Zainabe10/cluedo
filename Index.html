@@ -6,61 +6,34 @@
     <title>Cluedo - Page d'accueil</title>
     <link rel="stylesheet" href="style.css">
 </head>
-  <body>
-      <div class="image-container">
-          <img src="images/accueil.JPG" alt="Maison hantée" height="100%" width="100%">
-          <div class="text">
-              <h1>Bienvenue dans Cluedo</h1>
-              <p>Résolvez le mystère : Qui ? Où ? Avec quoi ?<br>
-              Cluedo est un jeu où les joueurs enquêtent pour découvrir qui a commis un meurtre, avec quelle arme, et dans quelle pièce du manoir.
-              </p>
-          </div>
-          <div class="buttons">
-              <button id="new-game" onclick="startNewGame()">Nouvelle Partie</button>
-              <button id="rules" onclick="showRules()">Règles du Jeu</button>
-          </div>
-      </div>
-      <script src="script.js"></script>
-  </body>
-<script>
-function startNewGame() {
-  alert("Nouvelle partie commencée !");
-  // Ici, redirigez vers la page de jeu ou réinitialisez l'état du jeu
-  window.location.href = "game.html"; // Exemple de redirection
-}
+<body>
+    <div class="image-container">
+        <img src="images/accueil.JPG" alt="Maison hantée" height="100%" width="100%">
+        <div class="text">
+            <h1>Bienvenue dans Cluedo</h1>
+            <p>Résolvez le mystère : Qui ? Où ? Avec quoi ?<br>
+            Cluedo est un jeu où les joueurs enquêtent pour découvrir qui a commis un meurtre, avec quelle arme, et dans quelle pièce du manoir.
+            </p>
+        </div>
+        <div class="buttons">
+            <button id="new-game" onclick="startNewGame()">Nouvelle Partie</button>
+            <button id="rules" onclick="showRules()">Règles du Jeu</button>
+        </div>
+        <div class="signature">
+            Zaïnabe MESSAOUDI
+        </div>
+    </div>
+    <script>
+        function startNewGame() {
+            alert("Nouvelle partie commencée !");
+            // Redirection vers la page selection_personnage.html
+            window.location.href = "selection_personnage.html";
+        }
 
-// Fonction pour afficher les règles du jeu
-function showRules() {
-  alert("Le but du jeu est de découvrir qui a commis le meurtre, dans quelle pièce et avec quelle arme."),
-        ("Explorez les pièces, formulez des hypothèses, et trouvez la bonne combinaison pour gagner !"),
-  document.getElementById("rules-section").classList.remove("hidden");
-}
-
-// Fonction pour cacher les règles du jeu
-function hideRules() {
-  document.getElementById("rules-section").classList.add("hidden");
-
-};
-</script>
-<h1>Début de la partie</h1>
-<p>Veuillez sélectionner un personnage :</p>
-
-<form action="choix_personnage.php" method="POST">
-    <label for="personnage">Choisir un personnage :</label>
-    <select id="personnage" name="personnage">
-        <option value="guerrier">Guerrier</option>
-        <option value="magicien">Magicien</option>
-        <option value="archer">Archer</option>
-    </select>
-    <br><br>
-    <button type="submit">Commencer la partie</button>
-</form>
-</body>
+        // Fonction pour afficher les règles du jeu
+        function showRules() {
+            alert("Le but du jeu est de découvrir qui a commis le meurtre, dans quelle pièce et avec quelle arme. Explorez les pièces, formulez des hypothèses, et trouvez la bonne combinaison pour gagner !");
+        }
+    </script>
 </body>
 </html>
-
-    
-
-
-    
-   

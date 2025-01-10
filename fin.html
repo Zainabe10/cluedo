@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cluedo - Fin de la Partie</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="image-container">
+        <img src="images/fin.jpg" height="100%" width="100%">
+        <div class="text">
+            <h1>Fin de la Partie</h1>
+            <div id="recap">
+                <h2>Récapitulatif de la Partie</h2>
+                <p id="combinaison-correcte"></p>
+                <p id="pieces-visitees"></p>
+                <p id="hypotheses-realisees"></p>
+                <button onclick="startNewGame()">Nouvelle Partie</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function startNewGame() {
+            // Réinitialiser les données de la partie
+            localStorage.clear();
+            // Redirection vers la page de sélection du personnage
+            window.location.href = "selection_personnage.html";
+        }
+
+        // Afficher le récapitulatif de la partie
+        document.getElementById('combinaison-correcte').textContent = 'Combinaison correcte : ' + localStorage.getItem('randomCharacter') + ', ' + localStorage.getItem('randomWeapon') + ', ' + localStorage.getItem('randomRoom');
+        document.getElementById('pieces-visitees').textContent = 'Nombre de pièces visitées : ' + localStorage.getItem('piecesVisited');
+        document.getElementById('hypotheses-realisees').textContent = 'Nombre d’hypothèses réalisées : ' + localStorage.getItem('hypothesesMade');
+    </script>
+</body>
+</html>
